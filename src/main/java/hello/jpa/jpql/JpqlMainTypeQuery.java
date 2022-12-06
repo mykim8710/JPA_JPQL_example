@@ -1,11 +1,11 @@
 package hello.jpa.jpql;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import hello.jpa.jpql.entity.Member;
 
-public class JpqlMain {
+import javax.persistence.*;
+import java.util.List;
+
+public class JpqlMainTypeQuery {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hellojpql");
         // EntityManagerFactory app 로딩시점에 딱 하나만 만든다.
@@ -18,7 +18,18 @@ public class JpqlMain {
         tx.begin(); // db 트랜젝션을 시작
 
         try {
+            Member member = new Member();
+            member.setUsername("name");
+            member.setAge(20);
 
+            em.persist(member);
+
+            // TypeQuery : 반환 타입이 명확할 때 사용
+            TypedQuery<Member> typedQuery = em.createQuery("select m from Member m", Member.class);
+            TypedQuery<String> typedQuery2 = em.createQuery("select m.username from Member m where m.username = 'name'", String.class);
+
+            // Query : 반환 타입이 명확하지 않을 때 사용
+            Query query = em.createQuery("select m.username, m.age from Member m");
 
             tx.commit();    // 커밋
         }catch (Exception e) {
