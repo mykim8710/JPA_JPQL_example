@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="jpa_jpql" />
+        <module name="JPA_JPQL_example" />
       </profile>
     </annotationProcessing>
   </component>
