@@ -1,10 +1,12 @@
 package hello.jpa.jpql.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
+@NoArgsConstructor
 @Getter @Setter
 @Entity
 public class Member { // N
@@ -16,6 +18,9 @@ public class Member { // N
     @Column(name = "NAME")
     private String username;
     private int age;
+
+    @Enumerated(EnumType.STRING)
+    private MemberType type;
 
     @ManyToOne(fetch = FetchType.LAZY) // 항상 지연로딩으로 해야함 !!!!
     @JoinColumn(name = "TEAM_ID")

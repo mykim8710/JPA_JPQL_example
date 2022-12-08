@@ -40,29 +40,40 @@ public class JpqlMainJoin {
             List<Member> resultList = em.createQuery(innerJoinQuery, Member.class)
                                         .setParameter("teamName", "team")
                                         .getResultList();
+            System.out.println("resultList = " + resultList);
 
             // left (outer) join
             String leftOuterJoinQuery = "select m from Member m left outer join m.team t where t.name = :teamName"; // outer 생략가능
             List<Member> resultList2 = em.createQuery(leftOuterJoinQuery, Member.class)
                                         .setParameter("teamName", "team")
                                         .getResultList();
+            System.out.println("resultList2 = " + resultList2);
 
             // Seta join : 막조인
             String setaJoinQuery = "select m from Member m, Team t where m.username = t.name";
             List<Member> resultList3 = em.createQuery(setaJoinQuery, Member.class)
                                         .getResultList();
+            System.out.println("resultList3 = " + resultList3);
 
 
             // on절 join : 1. 조인 대상 필터링
             String onJoinQuery1 = "SELECT m, t FROM Member m LEFT JOIN m.team t on t.name = :teamName";
-            List<Member> resultList4 = em.createQuery(onJoinQuery1, Member.class)
+            List<Object[]> resultList4 = em.createQuery(onJoinQuery1)
                                         .setParameter("teamName", "test")
                                         .getResultList();
+            Object[] objects = resultList4.get(0);
+            for(int i =0; i < objects.length; i++) {
+                System.out.println("objects1 = " + objects[i]);
+            }
 
             // on절 join : 2. 연관관계 없는 엔티티 외부 조인
             String onJoinQuery2 = "SELECT m, t FROM Member m LEFT JOIN Team t on m.username = t.name";
-            List<Member> resultList5 = em.createQuery(onJoinQuery2, Member.class)
+            List<Object[]> resultList5 = em.createQuery(onJoinQuery2)
                                         .getResultList();
+            Object[] objects2 = resultList5.get(0);
+            for(int i =0; i < objects2.length; i++) {
+                System.out.println("objects2 = " + objects2[i]);
+            }
 
             tx.commit();    // 커밋
         }catch (Exception e) {
