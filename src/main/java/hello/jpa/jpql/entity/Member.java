@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter @Setter
@@ -26,6 +28,9 @@ public class Member { // N
     @JoinColumn(name = "TEAM_ID")
     private Team team; // 1
 
+    @OneToMany(mappedBy = "member")
+    private List<Order> orders = new ArrayList<>();
+
     @Override
     public String toString() {
         return "Member{" +
@@ -40,5 +45,4 @@ public class Member { // N
         this.team = team;
         team.getMembers().add(this);
     }
-
 }
