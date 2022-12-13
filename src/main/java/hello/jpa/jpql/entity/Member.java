@@ -11,6 +11,10 @@ import java.util.List;
 @NoArgsConstructor
 @Getter @Setter
 @Entity
+@NamedQuery(
+        name = "Member.findByUsername", // Entity명.name
+        query = "select m from Member m where m.username = :username"
+)
 public class Member { // N
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
